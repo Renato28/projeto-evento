@@ -7,6 +7,5 @@ import com.renatonobrega.models.Evento;
 
 @Repository
 public interface EventoRepository extends JpaRepository<Evento, Integer>{
-
 	
 }

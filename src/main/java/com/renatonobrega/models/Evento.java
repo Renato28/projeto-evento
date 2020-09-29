@@ -21,9 +21,6 @@ public class Evento implements Serializable {
 	private LocalDateTime horaInicio;
 	private LocalDateTime horaFim;
 
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "evento")
-//	public List<Usuario> usuarios = new ArrayList<Usuario>();
-
 	public Evento() {
 
 	}
