@@ -55,13 +55,12 @@ public class EventoResource {
 
 	// Realiza a operação de inscrição de um usuário em um evento
 	@RequestMapping(method = RequestMethod.POST)
-	public void inscreverUsuario(@RequestBody @Valid Usuario usuario) throws NotSubscribeUserException {
-		if (usuario.getEvento().getVagas() <= 100
-				&& !usuario.getEvento().getHoraInicio().isAfter(LocalDateTime.now())) {
+	public void inscreverUsuario(@RequestBody @Valid Evento evento, @RequestBody @Valid Usuario usuario) throws NotSubscribeUserException {
+		if (evento.getVagas() <= 100
+				&& !evento.getHoraInicio().isAfter(LocalDateTime.now())) {
 			Usuario user = new Usuario();
 			user.setId(usuario.getId());
 			user.setNome(user.getNome());
-			user.setEvento(usuario.getEvento());
 			UsuarioService.insert(user);
 		} else {
 			new NotSubscribeUserException(
@@ -71,8 +70,8 @@ public class EventoResource {
 
 	// Realiza o cancelamento de uma inscrição de um usuário em um evento;
 	@RequestMapping(method = RequestMethod.DELETE)
-	public void cancelarInscricaoUsuario(@RequestBody @Valid Usuario usuario) {
-		if (usuario.getEvento().getHoraInicio().isAfter(LocalDateTime.now())) {
+	public void cancelarInscricaoUsuario(@RequestBody @Valid Evento evento, @RequestBody @Valid Usuario usuario) {
+		if (evento.getHoraInicio().isAfter(LocalDateTime.now())) {
 			new NotCancelSubscribeUserException("Não é possivel realizar o cancelamento da inscrição do usuário!");
 		} else {
 			UsuarioService.delete(usuario);
@@ -82,8 +81,8 @@ public class EventoResource {
 
 	// Valida entrada do usuário no evento.
 	@RequestMapping(method = RequestMethod.POST)
-	public void validarUsuario(@RequestBody @Valid Usuario usuario) {
-		if (usuario.getNome() != null && usuario.getEvento().getHoraInicio().isBefore(LocalDateTime.now().minusHours(1)) && usuario.getEvento().getHoraFim().isBefore(LocalDateTime.now())) {
+	public void validarUsuario(@RequestBody @Valid Evento evento, @RequestBody @Valid Usuario usuario) {
+		if (usuario.getNome() != null && evento.getHoraInicio().isBefore(LocalDateTime.now().minusHours(1)) && evento.getHoraFim().isBefore(LocalDateTime.now())) {
 			UsuarioService.insert(usuario);
 		}else {
 			new NotEnterUserEventException("Não é possivel a entrada do usuário no evento! ");

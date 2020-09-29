@@ -1,8 +1,7 @@
 package com.renatonobrega.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +23,15 @@ public class DBService {
 	
 	public void instantiateTestDatabase() {
 		
-		Usuario usuario = new Usuario();
-		usuario.setId(null);
-		usuario.setNome("Renato Nóbrega da Silva");
+		Usuario usuario = new Usuario(null, "Renato Nobrega da Silva");
 		
-		Evento evento = new Evento();
-		evento.setId(null);
-		evento.setNome("Expotec");
-		evento.setVagas(100);
-		evento.setHoraInicio(LocalDateTime.of(LocalDate.of(2020, 9, 29), LocalTime.of(9, 00)));
-		evento.setHoraFim(LocalDateTime.of(LocalDate.of(2020, 9, 29), LocalTime.of(18, 00)));
+		LocalDateTime dataHoraInicio = LocalDateTime.of(2020, 9, 29, 9, 00);
+		dataHoraInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 		
-		evento.getUsuarios().addAll(Arrays.asList(usuario));
+		LocalDateTime dataHoraFim = LocalDateTime.of(2020, 9, 29, 18, 00);
+		dataHoraFim.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+		
+		Evento evento = new Evento(null, "Expotec", 100, dataHoraInicio, dataHoraFim);
 		
 		eventoRepository.saveAll(Arrays.asList(evento));
 		usuarioRepository.saveAll(Arrays.asList(usuario));

@@ -2,15 +2,11 @@ package com.renatonobrega.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Evento implements Serializable {
@@ -25,8 +21,20 @@ public class Evento implements Serializable {
 	private LocalDateTime horaInicio;
 	private LocalDateTime horaFim;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "evento")
-	public List<Usuario> usuarios = new ArrayList<Usuario>();
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "evento")
+//	public List<Usuario> usuarios = new ArrayList<Usuario>();
+
+	public Evento() {
+
+	}
+
+	public Evento(Integer id, String nome, Integer vagas, LocalDateTime horaInicio, LocalDateTime horaFim) {
+		this.id = id;
+		this.nome = nome;
+		this.vagas = vagas;
+		this.horaInicio = horaInicio;
+		this.horaFim = horaFim;
+	}
 
 	public Integer getId() {
 		return id;
@@ -66,14 +74,6 @@ public class Evento implements Serializable {
 
 	public void setHoraFim(LocalDateTime horaFim) {
 		this.horaFim = horaFim;
-	}
-
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
 	}
 
 	@Override
